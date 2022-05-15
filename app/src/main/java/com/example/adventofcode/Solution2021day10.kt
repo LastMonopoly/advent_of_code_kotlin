@@ -1,7 +1,36 @@
+// Copyright 2022 LastMonopoly@outlook.com. All rights reserved.
+// Solution to https://adventofcode.com/2021/day/10
+
 package com.example.adventofcode
 
 fun main() {
-    solveSecondHalf(getInput())
+    solveFirstHalf(getInput())
+}
+
+fun solveFirstHalf(input: List<String>) {
+    val point = mapOf(' ' to 0, ')' to 3, ']' to 57, '}' to 1197, '>' to 25137)
+
+    var sum = 0
+    for (line: String in input) {
+        if (line.isNotEmpty()) {
+            sum += point[getIllegalChar(line)]!!
+        }
+    }
+    print(sum)
+}
+
+fun getIllegalChar(line: String): Char {
+    val stack = mutableListOf<Char>()
+    for (char: Char in line) {
+        if (chunk.containsKey(char)) {
+            stack.add(char)
+        } else if (char == chunk[stack.last()]) {
+            stack.removeLast()
+        } else {
+            return char
+        }
+    }
+    return ' '
 }
 
 fun solveSecondHalf(input: List<String>) {

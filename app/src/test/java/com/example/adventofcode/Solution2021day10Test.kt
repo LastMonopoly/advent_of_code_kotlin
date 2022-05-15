@@ -5,7 +5,6 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class Solution2021day10Test {
-
     @Test
     fun autoComplete() {
         assertEquals(
@@ -30,4 +29,21 @@ class Solution2021day10Test {
         )
     }
 
+    @Test
+    fun getIllegalChar_allLegal() {
+        assertEquals(getIllegalChar("([])"), ' ')
+        assertEquals(getIllegalChar("{()()()}"), ' ')
+        assertEquals(getIllegalChar("<([{}])>"), ' ')
+        assertEquals(getIllegalChar("[<>({}){}[([])<>]]"), ' ')
+        assertEquals(getIllegalChar("(((((((((())))))))))"), ' ')
+    }
+
+    @Test
+    fun getIllegalChar_allIllegal() {
+        assertEquals(getIllegalChar("{([(<{}[<>[]}>{[]{[(<()>"), '}')
+        assertEquals(getIllegalChar("[[<[([]))<([[{}[[()]]]"), ')')
+        assertEquals(getIllegalChar("[{[{({}]{}}([{[{{{}}([]"), ']')
+        assertEquals(getIllegalChar("[<(<(<(<{}))><([]([]()"), ')')
+        assertEquals(getIllegalChar("<{([([[(<>()){}]>(<<{{"), '>')
+    }
 }
