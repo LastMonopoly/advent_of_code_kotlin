@@ -12,8 +12,62 @@ fun solve(input: List<String>) {
     println(p)
 }
 
+fun computeImage(
+    points: List<Point>, topLeft: Point, bottomRight: Point
+): List<String> {
+    val lines = mutableListOf<String>()
+    for (y in topLeft.y..bottomRight.y) {
+        val line = mutableListOf<Char>()
+        for (x in topLeft.x..bottomRight.x) {
+            if (points.contains(Point(x, y, 0, 0))) {
+                line.add('#')
+            } else {
+                line.add('.')
+            }
+        }
+        lines.add(line.joinToString(""))
+    }
+    return lines
+}
 
-class Point(val x: Int, val y: Int, val dx: Int, val dy: Int) {
+fun move(points: List<Point>, seconds: Int) {
+    for (point in points) {
+        point.x += seconds * point.dx
+        point.y += seconds * point.dy
+    }
+}
+
+/// Returns the area that can cover all the points.
+fun computeArea(points: List<Point>): List<Point> {
+    var minX = points[0].x
+    var minY = points[0].y
+    var maxX = points[0].x
+    var maxY = points[0].y
+
+    for (point in points) {
+        if (point.x < minX) minX = point.x
+        if (point.x > maxX) maxX = point.x
+        if (point.y < minY) minY = point.y
+        if (point.y > maxY) maxY = point.y
+    }
+
+    return listOf(
+        Point(minX, minY, 0, 0),
+        Point(maxX, maxY, 0, 0),
+    )
+}
+
+fun parsePoints(input: List<String>): List<Point> {
+    val points = mutableListOf<Point>()
+    for (line in input) {
+        if (line.isNotEmpty()) {
+            points.add(Point.parse(line))
+        }
+    }
+    return points
+}
+
+class Point(var x: Int, var y: Int, val dx: Int, val dy: Int) {
     companion object {
         fun parse(line: String): Point {
             var l: Int = line.indexOf('<')
